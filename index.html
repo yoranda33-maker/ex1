@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suwon & Yongin Giheung Explorer | Foreigner's Travel Guide</title>
+  <meta name="description" content="Ultimate travel guide for foreign tourists visiting Suwon and Yongin Giheung-gu, South Korea. Explore Suwon Hwaseong Fortress, Korean Folk Village, Starfield Library, and Nam June Paik Art Center.">
+  
+  <!-- Google Fonts: Plus Jakarta Sans, Noto Sans KR, Noto Sans SC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600;700;900&family=Noto+Sans+SC:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Leaflet Map CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+  <!-- App Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       SITE HEADER
+       ======================================================================== -->
+  <header class="site-header" id="site-header">
+    <div class="container nav-container">
+      <a href="#" class="brand-logo" aria-label="Suwon and Giheung Explorer Home">
+        <span class="logo-badge">🇰🇷</span>
+        <div class="logo-text-wrap">
+          <span class="logo-text-main" data-i18n="site_title">Suwon & Giheung</span>
+          <span class="logo-text-sub" data-i18n="site_subtitle">Travel Guide</span>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="#attractions" class="nav-link" data-i18n="nav_attractions">Attractions</a></li>
+          <li><a href="#courses" class="nav-link" data-i18n="nav_courses">Courses</a></li>
+          <li><a href="#map-section" class="nav-link" data-i18n="nav_map">Map</a></li>
+          <li><a href="#transit" class="nav-link" data-i18n="nav_transit">Transit Guide</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Horizontal Language Switcher: Korean, English, Chinese -->
+        <div class="lang-selector-group" id="lang-selector-group" role="group" aria-label="Language selection">
+          <button class="lang-btn" data-lang="ko" title="한국어">
+            <span class="lang-flag">🇰🇷</span>
+            <span class="lang-name">한국어</span>
+          </button>
+          <button class="lang-btn active" data-lang="en" title="English">
+            <span class="lang-flag">🇺🇸</span>
+            <span class="lang-name">English</span>
+          </button>
+          <button class="lang-btn" data-lang="zh" title="中文">
+            <span class="lang-flag">🇨🇳</span>
+            <span class="lang-name">中文</span>
+          </button>
+        </div>
+
+        <!-- My Trip Drawer Button -->
+        <button id="my-trip-btn" class="my-trip-btn" title="Open My Trip Planner">
+          <span>🗺️</span>
+          <span data-i18n="nav_mytrip">My Trip</span>
+          <span id="trip-count-badge" class="trip-count-badge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       HERO SECTION WITH CINEMATIC ATTRACTION BACKGROUND
+       ======================================================================== -->
+  <section class="hero-section" id="hero-section">
+    <!-- Cinematic Image Backdrop Slider -->
+    <div class="hero-backdrop-container">
+      <div class="hero-bg-slide active" style="background-image: url('images/suwon_hwaseong.jpg');" data-scene="hwaseong"></div>
+      <div class="hero-bg-slide" style="background-image: url('images/korean_folk_village.jpg');" data-scene="folk"></div>
+      <div class="hero-bg-slide" style="background-image: url('images/starfield_suwon.jpg');" data-scene="starfield"></div>
+      <div class="hero-bg-slide" style="background-image: url('images/gwanggyo_lake_park.jpg');" data-scene="lake"></div>
+      <div class="hero-backdrop-overlay"></div>
+    </div>
+
+    <div class="container hero-content-grid">
+      <!-- Left / Main Column: Headlines & Search -->
+      <div class="hero-main-column">
+        <!-- Scene Switcher Pills on Hero -->
+        <div class="scene-switcher-bar">
+          <span class="scene-switcher-label">📸 <span data-i18n="hero_live_view">Featured View:</span></span>
+          <button class="scene-btn active" data-scene-target="hwaseong">
+            <span>🏯</span> <span data-i18n="scene_hwaseong">Suwon Hwaseong</span>
+          </button>
+          <button class="scene-btn" data-scene-target="folk">
+            <span>🎎</span> <span data-i18n="scene_folk">Korean Folk Village</span>
+          </button>
+          <button class="scene-btn" data-scene-target="starfield">
+            <span>📚</span> <span data-i18n="scene_starfield">Starfield Suwon</span>
+          </button>
+          <button class="scene-btn" data-scene-target="lake">
+            <span>🌙</span> <span data-i18n="scene_lake">Gwanggyo Lake</span>
+          </button>
+        </div>
+
+        <div class="hero-badge">
+          <span class="badge-sparkle">✨</span>
+          <span data-i18n="hero_badge">Twin Heritage & Tech Corridor of Gyeonggi-do</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span data-i18n="hero_title_1">Discover Ancient Joseon &</span><br>
+          <span class="highlight-gold" data-i18n="hero_title_2">Future Tech Innovations</span>
+        </h1>
+
+        <p class="hero-description" data-i18n="hero_desc">
+          Explore Suwon's UNESCO World Heritage fortress and Yongin Giheung's living folk village, connected directly in just 15 minutes by subway.
+        </p>
+
+        <!-- Modern Floating Search Bar with Quick Filter Chips -->
+        <div class="hero-search-container">
+          <div class="search-bar-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-input" class="search-input" placeholder="Search attractions, royal fortress, folk village, galbi..." aria-label="Search destinations">
+          </div>
+          <div class="search-chips-row">
+            <span class="chip-label" data-i18n="quick_search_label">Trending:</span>
+            <button class="search-chip" data-search-term="suwon-hwaseong">#수원화성 Hwaseong</button>
+            <button class="search-chip" data-search-term="korean-folk-village">#한국민속촌 Folk Village</button>
+            <button class="search-chip" data-search-term="starfield-suwon">#별마당도서관 Starfield</button>
+            <button class="search-chip" data-search-term="suwon-galbi-food">#왕갈비 King Galbi</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Sleek Destination Portal Cards -->
+      <div class="hero-portals-column">
+        <!-- Portal Card 1: Suwon -->
+        <div class="portal-card portal-suwon" data-filter-region="suwon">
+          <div class="portal-card-glow"></div>
+          <div class="portal-thumb" style="background-image: url('images/suwon_hwaseong.jpg');"></div>
+          <div class="portal-info">
+            <div class="portal-meta">
+              <span class="portal-tag tag-suwon">🏯 SUWON</span>
+              <span class="portal-stat">UNESCO Heritage</span>
+            </div>
+            <h3 class="portal-title" data-i18n="stat_suwon_title">Suwon City</h3>
+            <p class="portal-desc" data-i18n="stat_suwon_sub">UNESCO Fortress, Starfield Library & King Galbi</p>
+            <div class="portal-action-link">
+              <span data-i18n="portal_explore_suwon">Explore Suwon</span>
+              <span class="portal-arrow">→</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Portal Card 2: Giheung -->
+        <div class="portal-card portal-giheung" data-filter-region="giheung">
+          <div class="portal-card-glow"></div>
+          <div class="portal-thumb" style="background-image: url('images/korean_folk_village.jpg');"></div>
+          <div class="portal-info">
+            <div class="portal-meta">
+              <span class="portal-tag tag-giheung">🎎 GIHEUNG</span>
+              <span class="portal-stat">Living Tradition & Art</span>
+            </div>
+            <h3 class="portal-title" data-i18n="stat_giheung_title">Yongin Giheung</h3>
+            <p class="portal-desc" data-i18n="stat_giheung_sub">Korean Folk Village, Nam June Paik Art & Lake</p>
+            <div class="portal-action-link">
+              <span data-i18n="portal_explore_giheung">Explore Giheung</span>
+              <span class="portal-arrow">→</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Portal Card 3: 15-Min Metro Connection -->
+        <div class="portal-card portal-transit" id="portal-transit-trigger">
+          <div class="portal-card-glow"></div>
+          <div class="portal-thumb thumb-transit">
+            <span style="font-size: 1.8rem;">🚇</span>
+          </div>
+          <div class="portal-info">
+            <div class="portal-meta">
+              <span class="portal-tag tag-transit">⚡ 15 MIN LINK</span>
+              <span class="portal-stat">Suin-Bundang Line</span>
+            </div>
+            <h3 class="portal-title" data-i18n="stat_transit_title">15-Min Connection</h3>
+            <p class="portal-desc" data-i18n="stat_transit_sub">Direct Suin-Bundang Line connects both cities easily</p>
+            <div class="portal-action-link">
+              <span data-i18n="portal_view_transit">View Metro Corridor</span>
+              <span class="portal-arrow">↓</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       DESTINATIONS EXPLORER SECTION
+       ======================================================================== -->
+  <section class="container" id="attractions" style="padding-top: 30px;">
+    <div class="section-head">
+      <span class="section-sub" data-i18n="section_attractions_sub">Must-Visit Destinations</span>
+      <h2 class="section-title" data-i18n="section_attractions_title">Explore Suwon & Yongin Giheung</h2>
+    </div>
+
+    <!-- Filter Pills -->
+    <div class="explorer-controls">
+      <!-- Region Filter -->
+      <div class="filter-group-header">
+        <div class="filter-pills-container">
+          <button class="filter-pill region-pill active" data-region="all">
+            <span>✨</span> <span>All Regions</span>
+          </button>
+          <button class="filter-pill region-pill" data-region="suwon">
+            <span>🏯</span> <span>Suwon (수원)</span>
+          </button>
+          <button class="filter-pill region-pill" data-region="giheung">
+            <span>🎎</span> <span>Yongin Giheung (용인 기흥)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Category Filter -->
+      <div id="category-pills-wrap" class="filter-pills-container">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- Attractions Grid -->
+    <div id="attractions-grid" class="attractions-grid">
+      <!-- Cards rendered dynamically by app.js -->
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       CURATED ITINERARIES SECTION
+       ======================================================================== -->
+  <section class="itineraries-section" id="courses">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-sub" data-i18n="section_courses_sub">Handpicked Routes</span>
+        <h2 class="section-title" data-i18n="section_courses_title">Curated 1-Day & Half-Day Itineraries</h2>
+      </div>
+
+      <!-- Course Selection Tabs -->
+      <div id="course-tabs-wrap" class="course-tabs">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Course Timeline Panel -->
+      <div id="itinerary-detail-panel" class="itinerary-detail-panel">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       INTERACTIVE REGIONAL MAP SECTION
+       ======================================================================== -->
+  <section class="container" id="map-section" style="padding: 50px 24px;">
+    <div class="section-head">
+      <span class="section-sub" data-i18n="section_map_sub">Geographic Overview</span>
+      <h2 class="section-title" data-i18n="section_map_title">Interactive Regional Corridor Map</h2>
+    </div>
+
+    <div style="position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-subtle); box-shadow: var(--shadow-lg);">
+      <div id="leaflet-map" style="width: 100%; height: 480px; background: #0e1726;"></div>
+      <div style="position: absolute; bottom: 16px; left: 16px; z-index: 1000; background: rgba(9, 14, 26, 0.9); backdrop-filter: blur(8px); padding: 8px 16px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); font-size: 0.82rem; color: #cbd5e1; display: flex; gap: 14px;">
+        <span style="display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#2563eb;"></span> Suwon Landmarks</span>
+        <span style="display:flex; align-items:center; gap:6px;"><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#10b981;"></span> Yongin Giheung Landmarks</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       TRANSIT & MOBILITY HUB SECTION
+       ======================================================================== -->
+  <section class="transit-section" id="transit">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-sub" data-i18n="section_transit_sub">Seamless Travel</span>
+        <h2 class="section-title" data-i18n="section_transit_title">Subway Corridor & Travel Cards</h2>
+      </div>
+
+      <!-- Suin-Bundang Line Corridor Diagram -->
+      <div class="subway-line-diagram">
+        <div class="diagram-header">
+          <div>
+            <h3 style="font-size: 1.25rem; font-weight: 800; color: #fff; margin-bottom: 4px;">
+              Suin-Bundang Line: The 15-Minute Link
+            </h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted);">
+              Hop on the yellow subway line to glide smoothly between Suwon landmarks and Giheung attractions.
+            </p>
+          </div>
+          <span class="subway-badge-yellow">Suin-Bundang Line (수인분당선)</span>
+        </div>
+
+        <div class="subway-track-wrap">
+          <div class="subway-track-line"></div>
+
+          <div class="subway-station-node">
+            <div class="station-circle"></div>
+            <div class="station-name-en">Suwon Stn</div>
+            <div class="station-name-ko">수원역</div>
+            <div class="station-landmark">KTX / Line 1 / Hwaseong Bus</div>
+          </div>
+
+          <div class="subway-station-node">
+            <div class="station-circle"></div>
+            <div class="station-name-en">Maetan-Gwonseon</div>
+            <div class="station-name-ko">매탄권선역</div>
+            <div class="station-landmark">Central Suwon Area</div>
+          </div>
+
+          <div class="subway-station-node">
+            <div class="station-circle"></div>
+            <div class="station-name-en">Mangpo Stn</div>
+            <div class="station-name-ko">망포역</div>
+            <div class="station-landmark">Samsung Innovation Museum</div>
+          </div>
+
+          <div class="subway-station-node">
+            <div class="station-circle"></div>
+            <div class="station-name-en">Sanggal Stn</div>
+            <div class="station-name-ko">상갈역</div>
+            <div class="station-landmark">Folk Village & Art Center</div>
+          </div>
+
+          <div class="subway-station-node">
+            <div class="station-circle"></div>
+            <div class="station-name-en">Giheung Stn</div>
+            <div class="station-name-ko">기흥역</div>
+            <div class="station-landmark">Everline / Lake Park Bus</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transit Cards Tips Grid -->
+      <div id="transit-cards-wrap" class="transit-cards-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SURVIVAL TOOLKIT: CURRENCY & KOREAN VOICE PHRASES
+       ======================================================================== -->
+  <section class="survival-section" id="survival">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-sub" data-i18n="section_survival_sub">Practical Toolkit</span>
+        <h2 class="section-title" data-i18n="section_survival_title">Currency Converter & Korean Voice Phrasebook</h2>
+      </div>
+
+      <div class="toolkit-grid">
+        <!-- Currency Converter Card -->
+        <div class="currency-widget-card">
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #fff; margin-bottom: 20px; display:flex; align-items:center; gap:8px;">
+            <span>💵</span> <span data-i18n="currency_title">Travel Budget & Currency Calculator</span>
+          </h3>
+
+          <div class="calc-row">
+            <div class="calc-input-group">
+              <label class="calc-label" data-i18n="calc_foreign_label">Foreign Currency</label>
+              <input type="number" id="foreign-amount" class="calc-input" value="100" min="0">
+            </div>
+
+            <div>
+              <label class="calc-label">Select Currency</label>
+              <select id="currency-select" class="currency-select">
+                <option value="USD">USD ($)</option>
+                <option value="EUR">EUR (€)</option>
+                <option value="JPY">JPY (¥)</option>
+                <option value="CNY">CNY (¥)</option>
+                <option value="GBP">GBP (£)</option>
+                <option value="TWD">TWD (NT$)</option>
+              </select>
+            </div>
+
+            <span class="calc-equals">⇄</span>
+
+            <div class="calc-input-group">
+              <label class="calc-label" data-i18n="calc_krw_label">Korean Won (KRW)</label>
+              <input type="text" id="krw-amount" class="calc-input" placeholder="0">
+            </div>
+          </div>
+
+          <!-- Sample Prices Cheat Sheet -->
+          <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--accent-gold); margin-top: 24px;" data-i18n="sample_prices_title">
+            Quick Local Price Cheat Sheet
+          </h4>
+          <div id="sample-prices-list" class="sample-prices-list">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Survival Korean Voice Phrasebook -->
+        <div class="phrases-card">
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #fff; margin-bottom: 6px; display:flex; align-items:center; gap:8px;">
+            <span>🗣️</span> <span data-i18n="phrases_title">Survival Korean Voice Helper</span>
+          </h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 18px;" data-i18n="phrases_sub">
+            Tap speaker icon to pronounce aloud in Korean for locals!
+          </p>
+
+          <!-- Phrase Category Tabs -->
+          <div id="phrase-category-tabs" class="phrase-category-tabs">
+            <!-- Rendered by JS -->
+          </div>
+
+          <!-- Phrases List with Voice buttons -->
+          <div id="phrases-list" class="phrases-list">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Emergency Helpline Banner -->
+      <div class="emergency-banner">
+        <div class="emergency-info-block">
+          <h3><span>🚨</span> <span data-i18n="emergency_title">24/7 Korea Travel Hotline & Emergency Contacts</span></h3>
+          <p data-i18n="emergency_desc">
+            Dial 1330 anytime for free foreign language interpretation (English, Japanese, Chinese) and tourism assistance.
+          </p>
+        </div>
+        <div class="emergency-quick-buttons">
+          <a href="tel:1330" class="emergency-call-btn" style="background:#2563eb;">
+            <span>📞</span> <span>1330 Travel Hotline</span>
+          </a>
+          <a href="tel:112" class="emergency-call-btn">
+            <span>🚓</span> <span>112 Police</span>
+          </a>
+          <a href="tel:119" class="emergency-call-btn" style="background:#dc2626;">
+            <span>🚑</span> <span>119 Ambulance</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       MODAL: TAXI DRIVER CARD
+       ======================================================================== -->
+  <div id="taxi-modal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-content-box">
+      <button class="modal-close-btn" aria-label="Close modal">✕</button>
+      
+      <div class="taxi-modal-header">
+        <span class="taxi-modal-icon">🚖</span>
+        <div>
+          <h2 data-i18n="taxi_modal_title">Show This Screen to Your Taxi Driver</h2>
+          <p data-i18n="taxi_modal_sub">Clear Korean destination card with address for Korean drivers</p>
+        </div>
+      </div>
+
+      <div class="taxi-card-body">
+        <div class="taxi-destination-banner">
+          <span class="taxi-show-label">👉 기사님께 보여주세요 (Show to Driver)</span>
+          <div id="taxi-dest-name" class="taxi-target-ko">수원화성 장안문</div>
+          <div id="taxi-dest-phrase" class="taxi-phrase-ko">"기사님, 수원화성 장안문으로 가주세요!"</div>
+          <div class="taxi-address-box">
+            <span id="taxi-dest-addr">경기도 수원시 장안구 영화동 320-2</span>
+          </div>
+        </div>
+
+        <div class="taxi-modal-actions">
+          <button id="btn-speak-taxi" class="btn-taxi-action btn-speak-big">
+            <span>🔊</span> <span data-i18n="btn_speak_taxi">Pronounce Destination (Voice)</span>
+          </button>
+          <button id="btn-copy-address" class="btn-taxi-action btn-copy-address">
+            <span>📋</span> <span data-i18n="btn_copy_addr">Copy Korean Address</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL: ATTRACTION DETAIL & TIPS
+       ======================================================================== -->
+  <div id="detail-modal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-content-box">
+      <button class="modal-close-btn" aria-label="Close modal">✕</button>
+      <div id="detail-modal-body-content" class="detail-modal-body">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       DRAWER: MY TRIP PLANNER
+       ======================================================================== -->
+  <div id="trip-drawer" class="trip-drawer" role="dialog" aria-modal="true">
+    <div class="trip-drawer-header">
+      <h3 data-i18n="trip_drawer_title">🗺️ My Custom Trip Itinerary</h3>
+      <button id="close-trip-drawer" class="modal-close-btn" style="position:static;" aria-label="Close trip drawer">✕</button>
+    </div>
+
+    <div id="trip-items-container" class="trip-drawer-body">
+      <!-- Rendered by JS -->
+    </div>
+
+    <div class="trip-drawer-footer">
+      <button id="btn-clear-trip" class="btn-clear-all" data-i18n="trip_clear">Clear All Places</button>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       TOAST NOTIFICATION
+       ======================================================================== -->
+  <div id="toast-notice" class="toast-notice">Notice</div>
+
+  <!-- ========================================================================
+       FOOTER
+       ======================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <span style="font-size:1.6rem;">🇰🇷</span>
+            <strong style="font-size:1.15rem; color:#fff;">Suwon & Yongin Giheung Explorer</strong>
+          </div>
+          <p>
+            Designed to empower international travelers discovering the rich heritage of King Jeongjo's Suwon Hwaseong, vibrant K-culture at Starfield, centuries-old traditions at the Korean Folk Village, and global media art in Yongin Giheung.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Official Resources</h4>
+          <ul class="footer-links">
+            <li><a href="https://english.visitkorea.or.kr" target="_blank" rel="noopener">VisitKorea (KTO)</a></li>
+            <li><a href="https://www.swcf.or.kr" target="_blank" rel="noopener">Suwon Cultural Foundation</a></li>
+            <li><a href="https://www.koreanfolk.co.kr" target="_blank" rel="noopener">Korean Folk Village Official</a></li>
+            <li><a href="https://njp.ggcf.kr" target="_blank" rel="noopener">Nam June Paik Art Center</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Emergency & Help</h4>
+          <ul class="footer-links">
+            <li><a href="tel:1330">1330 Korea Travel Hotline (24/7)</a></li>
+            <li><a href="tel:112">112 Police Assistance</a></li>
+            <li><a href="tel:119">119 Medical & Fire Rescue</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Suwon & Giheung Smart Travel Guide. Built with pure HTML5, CSS3 & Vanilla JavaScript. Zero server setup needed.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Leaflet Map JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- Application Scripts -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
